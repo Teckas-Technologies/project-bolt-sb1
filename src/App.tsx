@@ -1,46 +1,44 @@
-import React, { useState, useEffect } from 'react';
+import React, { useState, useEffect, useRef } from 'react';
 import { ArrowRight, CheckCircle, Zap, Users, TrendingUp, Shield, Bot, Code, Cog,Headphones, HeadphonesIcon, Star, Quote, Menu, X, Clock, Target, Rocket, Search, Settings, RotateCcw, MessageSquare, Mail, User } from 'lucide-react';
+
+declare global {
+  interface Window {
+    renderWaitlistWidget?: () => void;
+  }
+}
 
 function App() {
   const [isMenuOpen, setIsMenuOpen] = useState(false);
   const [scrollY, setScrollY] = useState(0);
   const [isModalOpen, setIsModalOpen] = useState(false);
-  const [formData, setFormData] = useState({ name: '', email: '' });
-  const [isSubmitted, setIsSubmitted] = useState(false);
-
+  const containerRef = useRef(null);  
   useEffect(() => {
     const handleScroll = () => setScrollY(window.scrollY);
     window.addEventListener('scroll', handleScroll);
     return () => window.removeEventListener('scroll', handleScroll);
   }, []);
 
+  useEffect(() => {
+    if (isModalOpen && containerRef.current) {
+      if (!document.getElementById('getwaitlist-script')) {
+        const script = document.createElement('script');
+        script.src = 'https://prod-waitlist-widget.s3.us-east-2.amazonaws.com/getwaitlist.min.js';
+        script.id = 'getwaitlist-script';
+        script.async = true;
+        document.body.appendChild(script);
+      } else {
+        window.renderWaitlistWidget?.();
+      }
+    }
+  }, [isModalOpen]);
+
   const handleDemoRequest = () => {
     setIsModalOpen(true);
   };
 
-  const handleInputChange = (e: React.ChangeEvent<HTMLInputElement>) => {
-    const { name, value } = e.target;
-    setFormData(prev => ({ ...prev, [name]: value }));
-  };
-
-  const handleSubmit = (e: React.FormEvent) => {
-    e.preventDefault();
-    if (formData.name && formData.email) {
-      // Here you would typically send the data to your backend
-      console.log('Demo requested for:', formData);
-      setIsSubmitted(true);
-      setTimeout(() => {
-        setIsModalOpen(false);
-        setIsSubmitted(false);
-        setFormData({ name: '', email: '' });
-      }, 2000);
-    }
-  };
 
   const closeModal = () => {
     setIsModalOpen(false);
-    setIsSubmitted(false);
-    setFormData({ name: '', email: '' });
   };
 
   return (
@@ -49,91 +47,23 @@ function App() {
          {isModalOpen && (
         <div className="fixed inset-0 bg-black bg-opacity-50 z-50 flex items-center justify-center p-4">
           <div className="bg-white rounded-2xl p-8 max-w-md w-full relative animate-fade-in-up">
-            <button 
+            <button
               onClick={closeModal}
               className="absolute top-4 right-4 text-gray-400 hover:text-gray-600 transition-colors"
             >
               <X className="h-6 w-6" />
             </button>
-            
-            {!isSubmitted ? (
-              <>
-                <div className="text-center mb-6">
-                  <div className="bg-blue-100 w-16 h-16 rounded-full flex items-center justify-center mx-auto mb-4">
-                    <Mail className="h-8 w-8 text-blue-600" />
-                  </div>
-                  <h3 className="text-2xl font-bold text-gray-900 mb-2">
-                    Request Sample Integration Demo
-                  </h3>
-                  <p className="text-gray-600">
-                    See how we've made other SaaS products AI-usable. We'll send you a personalized demo video within 24 hours.
-                  </p>
-                </div>
-                
-                <form onSubmit={handleSubmit} className="space-y-4">
-                  <div>
-                    <label htmlFor="name" className="block text-sm font-medium text-gray-700 mb-2">
-                      Full Name
-                    </label>
-                    <div className="relative">
-                      <User className="absolute left-3 top-1/2 transform -translate-y-1/2 h-5 w-5 text-gray-400" />
-                      <input
-                        type="text"
-                        id="name"
-                        name="name"
-                        value={formData.name}
-                        onChange={handleInputChange}
-                        placeholder="John Smith"
-                        className="w-full pl-10 pr-4 py-3 border border-gray-300 rounded-lg focus:ring-2 focus:ring-blue-500 focus:border-transparent transition-all duration-200"
-                        required
-                      />
-                    </div>
-                  </div>
-                  
-                  <div>
-                    <label htmlFor="email" className="block text-sm font-medium text-gray-700 mb-2">
-                      Work Email Address
-                    </label>
-                    <div className="relative">
-                      <Mail className="absolute left-3 top-1/2 transform -translate-y-1/2 h-5 w-5 text-gray-400" />
-                      <input
-                        type="email"
-                        id="email"
-                        name="email"
-                        value={formData.email}
-                        onChange={handleInputChange}
-                        placeholder="john@company.com"
-                        className="w-full pl-10 pr-4 py-3 border border-gray-300 rounded-lg focus:ring-2 focus:ring-blue-500 focus:border-transparent transition-all duration-200"
-                        required
-                      />
-                    </div>
-                  </div>
-                  
-                  <button
-                    type="submit"
-                    className="w-full bg-blue-600 text-white py-3 rounded-lg hover:bg-blue-700 transform hover:scale-105 transition-all duration-200 shadow-lg hover:shadow-xl font-semibold"
-                  >
-                    Send Me the Demo 🔗
-                  </button>
-                </form>
-                
-                <p className="text-xs text-gray-500 text-center mt-4">
-                  We'll send you a custom demo within 24 hours. No spam, ever.
-                </p>
-              </>
-            ) : (
-              <div className="text-center">
-                <div className="bg-green-100 w-16 h-16 rounded-full flex items-center justify-center mx-auto mb-4">
-                  <CheckCircle className="h-8 w-8 text-green-600" />
-                </div>
-                <h3 className="text-2xl font-bold text-gray-900 mb-2">
-                  Demo Request Sent! ✅
-                </h3>
-                <p className="text-gray-600">
-                  Thanks <strong>{formData.name}</strong>! We'll send your personalized demo to <strong>{formData.email}</strong> within 24 hours.
-                </p>
-              </div>
-            )}
+            <div
+              ref={containerRef}
+              id="getWaitlistContainer"
+              data-waitlist_id="29227"
+              data-widget_type="WIDGET_1"
+            ></div>
+            <link
+              rel="stylesheet"
+              type="text/css"
+              href="https://prod-waitlist-widget.s3.us-east-2.amazonaws.com/getwaitlist.min.css"
+            />
           </div>
         </div>
       )}
