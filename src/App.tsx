@@ -38,9 +38,9 @@ function App() {
                 Pricing
                 <span className="absolute -bottom-1 left-0 w-0 h-0.5 bg-blue-600 transition-all duration-300 group-hover:w-full"></span>
               </a>
-              <button className="bg-blue-600 text-white px-6 py-2 rounded-lg hover:bg-blue-700 transform hover:scale-105 hover:shadow-lg transition-all duration-200">
+              <a href='https://calendly.com/immanuel-teckastechnologies/aireadysaas' target='_blank'><button className="bg-blue-600 text-white px-6 py-2 rounded-lg hover:bg-blue-700 transform hover:scale-105 hover:shadow-lg transition-all duration-200">
                 Book Free Audit
-              </button>
+              </button></a>
             </div>
 
             {/* Mobile Menu Button */}
@@ -60,9 +60,9 @@ function App() {
               <a href="#how-it-works" className="block text-gray-600 hover:text-blue-600 transition-colors">How It Works</a>
               <a href="#use-cases" className="block text-gray-600 hover:text-blue-600 transition-colors">Use Cases</a>
               <a href="#pricing" className="block text-gray-600 hover:text-blue-600 transition-colors">Pricing</a>
-              <button className="w-full bg-blue-600 text-white px-6 py-2 rounded-lg hover:bg-blue-700 transition-colors">
+              <a href='https://calendly.com/immanuel-teckastechnologies/aireadysaas' target='_blank'><button className="w-full bg-blue-600 text-white px-6 py-2 rounded-lg hover:bg-blue-700 transition-colors">
                 Book Free Audit
-              </button>
+              </button></a>
             </div>
           </div>
         </div>
@@ -95,10 +95,10 @@ function App() {
             </div>
             
             <div className="flex flex-col sm:flex-row gap-4 justify-center animate-fade-in-up" style={{animationDelay: '0.4s'}}>
-              <button className="group bg-blue-600 text-white px-8 py-4 rounded-lg text-lg font-semibold hover:bg-blue-700 transform hover:scale-105 transition-all duration-300 shadow-lg hover:shadow-xl">
+            <a href='https://calendly.com/immanuel-teckastechnologies/aireadysaas' target='_blank'><button className="group bg-blue-600 text-white px-8 py-4 rounded-lg text-lg font-semibold hover:bg-blue-700 transform hover:scale-105 transition-all duration-300 shadow-lg hover:shadow-xl">
                 👉 Book Free Audit Call
                 <ArrowRight className="inline ml-2 h-5 w-5 group-hover:translate-x-1 transition-transform duration-200" />
-              </button>
+              </button></a>
               <button className="group border-2 border-gray-300 text-gray-700 px-8 py-4 rounded-lg text-lg font-semibold hover:border-blue-600 hover:text-blue-600 hover:shadow-lg transition-all duration-300">
                 📩 Request Sample Integration Demo
                 <span className="inline-block ml-2 transform group-hover:scale-110 transition-transform duration-200">🔗</span>
